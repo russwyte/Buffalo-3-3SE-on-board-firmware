@@ -1,8 +1,14 @@
-
----
 language: c
 before_install:
-  - sudo apt-get update -qq
+- sudo apt-get update -qq
 install:
-  - sudo apt-get install -qq gcc-avr binutils-avr avr-libc
+- sudo apt-get install -qq gcc-avr binutils-avr avr-libc
 script: make -C ./Release all
+deploy:
+  provider: releases
+  api_key:
+    secure: rDiDnl4DWAFjGzexKxhZQ5EL2rQpr1GSIt175Lr2DFl0ynFBfGbeJ0QJcAEL2fGzR0X8jft/KZ6oxmBfAyg4yyAKP79SLycf/vRCX68k2a6nShZfxPT722Gj3ykaG7RRGDUtrt+Y9pDiQC0kFsMcRHozWCqvAtY+DV6vx7biHvtbcUUItupMBL7hfZK0/CU4gjowo1zsBhC+gCTonGZezwtWOcJqZOBaBJgSBz5xUAiYLnMiyVEf0PFxp43W+920REIZwBuaKBx9AEOnWMt49NhmERmdGHUjdgE8jZJdNJhC99G4AvFYiQCrdAPt2E0uQLyIBEZ6XdIXRicegxHPD65hodZ8qmTkt9zKBc+fU67PXICzlfHdj9yRw31th+fjLsKAGIbMa6gPHEX99M5Ub7BmrDwBURr46IynIz1o/iF6KJVbHuxjatHEipOSn8V96Zrn+p8AaCe/3rSuNsd/DB2qmcSEINLkKgRZ2FgmfRQakeibO3Y2SN1IL9G/OxS1I/lZ2e87I7NqokztVLdJ66I2OK72mmVWOJEfJyDp0Q7olh97nptIc4KKrIF+jOYe0Hkp1fvetr6dK1w1O1rU1VcZhSZC98FkHcHwj7JlcoK/lMndmi3vzBtwsw6QjDSWS8j2wBhE0gABzaEY40kxYIz527Z1P0BmxZMcq5GDtHM=
+  file: "./Release/Buffalo_3SE_OB_FW.hex"
+  skip_cleanup: true
+  on:
+    repo: russwyte/Buffalo-3SE-on-board-firmware
