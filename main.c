@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <avr/wdt.h>
 #include "USI_I2C_Master.h"
-#include "buffalo.h"
+#include "Buffalo.h"
 
 // switch states coming from the port expander
 uint8_t sw1, sw2;
