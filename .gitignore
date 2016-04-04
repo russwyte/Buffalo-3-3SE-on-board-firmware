@@ -1,6 +1,3 @@
-# everything in the release dir
-/Release/
-
 # Object files
 *.o
 *.ko
