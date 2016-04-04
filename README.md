@@ -10,3 +10,4 @@ Fuse bytes:
 - High:	6D
 - Ext:	FF
 
+Travis should build the HEX
