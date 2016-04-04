@@ -11,3 +11,4 @@ Fuse bytes:
 - Ext:	FF
 
 Travis should build the HEX
+[![Build Status](https://travis-ci.org/russwyte/Buffalo-3SE-on-board-firmware.svg?branch=master)](https://travis-ci.org/russwyte/Buffalo-3SE-on-board-firmware)
