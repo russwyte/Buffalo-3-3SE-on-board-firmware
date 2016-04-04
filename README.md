@@ -10,8 +10,9 @@ Fuse bytes:
 - High:	6D
 - Ext:	FF
 
-Travis should build the HEX
 [![Build Status](https://travis-ci.org/russwyte/Buffalo-3SE-on-board-firmware.svg?branch=master)](https://travis-ci.org/russwyte/Buffalo-3SE-on-board-firmware)
+
+[Latest Release](https://github.com/russwyte/Buffalo-3SE-on-board-firmware/releases/latest "latest release")
 
 The MIT License (MIT)
 
