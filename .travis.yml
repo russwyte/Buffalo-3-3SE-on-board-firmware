@@ -5,4 +5,4 @@ before_install:
   - sudo apt-get update -qq
 install:
   - sudo apt-get install -qq gcc-avr binutils-avr avr-libc
-script: Release/make
+script: make -C ./Release all
