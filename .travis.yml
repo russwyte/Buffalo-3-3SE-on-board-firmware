@@ -11,5 +11,5 @@ deploy:
   file: "./Release/Buffalo_3SE_OB_FW.hex"
   skip_cleanup: true
   on:
-    repo: russwyte/Buffalo-3SE-on-board-firmware
+    #repo: russwyte/Buffalo-3SE-on-board-firmware
     tags: true
