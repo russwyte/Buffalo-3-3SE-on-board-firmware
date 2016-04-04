@@ -12,3 +12,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: russwyte/Buffalo-3SE-on-board-firmware
+    tags: true
