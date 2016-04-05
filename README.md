@@ -1,6 +1,6 @@
 # Buffalo-3SE-on-board-firmware
 
-On-Board Firmware for the Buffalo 3-SE DAC
+On-Board Firmware for the Twisted Pear Audio - Buffalo 3-SE DAC
 
 This firmware depends on the watch dog timer always being on and the brownout detection being enabled (at 2.7V).
 
