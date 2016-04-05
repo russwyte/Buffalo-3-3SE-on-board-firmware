@@ -7,7 +7,7 @@ This firmware depends on the watch dog timer always being on and the brownout de
 AVR - ATTiny85
 Fuse bytes:
 - Low:	D2
-- High:	6D
+- High:	CD
 - Ext:	FF
 
 [![Build Status](https://travis-ci.org/russwyte/Buffalo-3SE-on-board-firmware.svg?branch=master)](https://travis-ci.org/russwyte/Buffalo-3SE-on-board-firmware)
