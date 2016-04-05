@@ -179,7 +179,7 @@ void configureDAC() {
 	}
 
 	// Ok lets use switches 5, 6, and 7 to choose DPLL bandwidth
-	// Leaving them open will be the default (do nothing).
+	// Leaving them low will be the default (do nothing).
 	uint8_t dpll = ((uint8_t) sw1 >> 4) & 0b111;
 	if (dpll != 0) {
 		clearRegisterBit(25, 1);
@@ -192,7 +192,6 @@ void configureDAC() {
 	}
 
 	// Switch 8 will control DPLL BW x 128 feature.
-	// Observation. This mode really works well at lowest bandwidth. I have yet to find a source that cannot hold the lock.
 	if (sw1 & _BV(7)) {
 		setRegisterBit(25, 0); // X 128
 	} else {
