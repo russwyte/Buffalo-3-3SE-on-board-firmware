@@ -136,8 +136,8 @@ uint8_t i2c_start(uint8_t addr) {
  ---------------------------------------------------------------*/
 uint8_t i2c_start_wait(uint8_t addr) {
 	if (i2c_start(addr) == 1) {
-		i2c_stop();
-		_delay_ms(1);           // wait a bit for the device to become available
+//		i2c_stop();
+		_delay_ms(10);           // wait a bit for the device to become available
 		i2c_start_wait(addr);
 	}
 	return (0);

@@ -17,7 +17,6 @@ uint8_t state[26];
 // array to hold ADC samples for volume
 uint8_t volumeResults[AVG_LEN];
 
-
 // use for quick sort
 int cmp_chars(const void *c1, const void *c2) {
 	uint8_t ch1 = *(uint8_t *) c1;
@@ -28,31 +27,32 @@ int cmp_chars(const void *c1, const void *c2) {
 // sends a byte to the target address awaiting start condition
 // the start must be successful to move on
 void i2cSendByte(uint8_t address, uint8_t reg, uint8_t val) {
-	i2c_start_wait(address);
-	i2c_write(reg);
-	i2c_write(val);
-	i2c_stop();
+	if (i2c_start(address) == 0) {
+		i2c_write(reg);
+		i2c_write(val);
+		i2c_stop();
+	} else {
+		i2cSendByte(address, reg, val);
+	}
 }
 
 // receives a byte to the target address awaiting start condition
 // the start must be successful to move on
 // this prevents initializing while the DAC is not ready
 uint8_t i2cReceiveByte(uint8_t address, uint8_t reg) {
-	i2c_start_wait(address);
-	i2c_write(reg);
-	i2c_stop();
-	i2c_start(address + 1);
-	uint8_t res = i2c_read(1); // send nack
-	i2c_stop();
-	return res;
-}
-
-//Read all of the writable registers we care about
-void readRegisters() {
-	uint8_t i;
-	for (i = 0; i < 26; i++) {
-		state[i] = i2cReceiveByte(DAC_ADDRESS, i);
+	wdt_reset();
+	uint8_t res = 0;
+	if (i2c_start(address) == 0) {
+		i2c_write(reg);
+		i2c_stop();
+		i2c_start(address + 1);
+		res = i2c_read(1); // send nack
+		i2c_stop();
+	} else {
+		_delay_ms(1);
+		res = i2cReceiveByte(address, reg);
 	}
+	return res;
 }
 
 // read the port expander switch states
@@ -125,6 +125,7 @@ void checkAndUpdate(uint8_t address) {
 	}
 	uint8_t i;
 	for (i = 0; i < 26; i++) {
+		// we could just write each register always - but why... :)
 		if (i2cReceiveByte(address, i) != state[i]) {
 			i2cSendByte(address, i, state[i]);
 		}
@@ -133,17 +134,6 @@ void checkAndUpdate(uint8_t address) {
 
 // This does all the heavy lifting of configuring the state based on the switches
 void configureDAC() {
-	// turn off auto mute for silence
-	state[8] = 0b01111111;
-	state[9] = 0b00000001;
-	// we will always re-map DAC sources
-	setRegisterBit(14, 7);
-	setRegisterBit(14, 6);
-	setRegisterBit(14, 5);
-	setRegisterBit(14, 4);
-
-	// always use D1 for SPDIF
-	state[18] = 0b00000001;
 
 	// SW1 is mapped to port A on the port expander.
 	// SW2 is mapped to port B on the port expander.
@@ -282,10 +272,42 @@ void configureDAC() {
 void initialize() {
 	// It is critical to use the watch dog - make sure you set the fuse!
 	wdt_reset();
-	// WDT timeout at 60ms should do it
 	wdt_enable(WDTO_60MS);
+	// default values (slightly tweaked) - see the ES9018 data sheet
+	// 0 - 7 are the volume registers
+	// just to be cautious we will set attenuation to max
+	state[0] = 255;
+	state[1] = 255;
+	state[2] = 255;
+	state[3] = 255;
+	state[4] = 255;
+	state[5] = 255;
+	state[6] = 255;
+	state[7] = 255;
+	// settings
+	state[8] = 0b01111111;
+	state[9] = 0b00000000;
+	state[10] = 0b11001110;
+	state[11] = 0b10011101;
+	state[12] = 0b00100000;
+	state[13] = 0b00000000;
+	state[14] = 0b11111001;// we always re-map for B3SE - also use normal IIR
+	state[15] = 0b00000000;
+	state[16] = 0b00000000;
+	state[17] = 0b00011100;
+	state[18] = 0b00000001;
+	state[19] = 0b00000000;
+	// master trim - no attenuation
+	state[20] = 0xFF;
+	state[21] = 0xFF;
+	state[22] = 0xFF;
+	state[23] = 0x7F;
+	// more settings
+	state[24] = 0b00110000;
+	state[25] = 0b00000010;
+
 	// ADC setup
-	cbi(DDRB, PIN4);	// set DDRB4 to input
+	cbi(DDRB, PIN4);// set DDRB4 to input
 	cbi(PORTB, PIN4);	// disable weak pull-up on PORTB4
 	// setup ADC
 	ADCSRA = 0;
@@ -306,7 +328,6 @@ void initialize() {
 	i2cSendByte(PE_ADDRESS, PE_GPPUB, 0b11111111); // enable all weak pull-ups
 	_delay_ms(1);
 	// GET the initial state for the DAC registers
-	readRegisters();
 }
 
 // Main
@@ -314,15 +335,18 @@ int main(int argc, char **argv) {
 	initialize();
 	// Continually check the state/ADC and apply changes to the DAC(s)
 	while (1) {
-		wdt_reset();// kick the dog
+		wdt_reset();
+		// kick the dog
 		readSwitchStates();
 		setVolume(getVolume());
 		configureDAC();
 		checkAndUpdate(DAC_ADDRESS);
 		if (MONO) {
+			wdt_reset();
+			// kick the dog again because we are doing this twice
 			checkAndUpdate(DAC_ADDRESS + 2);
 		}
-		_delay_ms(10);// sleep a bit
+		_delay_ms(10); // sleep a bit
 	}
 	return 0;
 }
