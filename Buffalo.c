@@ -14,6 +14,10 @@ uint8_t sw1, sw2;
 // desired DAC state
 uint8_t state[26];
 
+// array to hold ADC samples for volume
+uint8_t volumeResults[AVG_LEN];
+
+
 // use for quick sort
 int cmp_chars(const void *c1, const void *c2) {
 	uint8_t ch1 = *(uint8_t *) c1;
@@ -73,7 +77,6 @@ void setVolume(uint8_t vol) {
 // gets the reading from the ADC and applies some over-sampling to get smoother reading.
 // this is faster than averaging
 uint8_t getVolume() {
-	uint8_t v[AVG_LEN];
 	uint8_t i;
 	//Remove jitter from ADC reading
 	for (i = 0; i < AVG_LEN; i++) {
@@ -82,10 +85,10 @@ uint8_t getVolume() {
 		while (ADCSRA & _BV(ADSC))
 			; // wait for it...
 		cbi(ADCSRA, ADEN);
-		v[i] = (ADCH >> 1);
+		volumeResults[i] = (ADCH >> 1);
 	}
-	qsort(v, AVG_LEN, sizeof(uint8_t), &cmp_chars);
-	return v[AVG_LEN / 2];
+	qsort(volumeResults, AVG_LEN, sizeof(uint8_t), &cmp_chars);
+	return volumeResults[AVG_LEN / 2];
 }
 
 void setRegisterBit(uint8_t reg, uint8_t b) {
@@ -279,8 +282,8 @@ void configureDAC() {
 void initialize() {
 	// It is critical to use the watch dog - make sure you set the fuse!
 	wdt_reset();
-	// 250ms should do it
-	wdt_enable(4);
+	// WDT timeout at 60ms should do it
+	wdt_enable(WDTO_60MS);
 	// ADC setup
 	cbi(DDRB, PIN4);	// set DDRB4 to input
 	cbi(PORTB, PIN4);	// disable weak pull-up on PORTB4
@@ -293,19 +296,15 @@ void initialize() {
 	sbi(ADCSRA, ADPS2);
 	sbi(ADCSRA, ADPS1);
 	sbi(ADCSRA, ADPS0);
-	// I2C pin configuration - just to be explcit
-	cbi(DDRB, PIN1);	// set DDRB1 to input
-	sbi(PORTB, PIN1);	// enable weak pull-up on PORTB1
-	cbi(DDRB, PIN3);	// set DDRB3 to input
-	sbi(PORTB, PIN3);	// enable weak pull-up on PORTB3
+	// setup I2C
 	i2c_init();
-	_delay_ms(10);
+	_delay_ms(1);
 	// configure the port expander
 	i2cSendByte(PE_ADDRESS, PE_IOCONN, 0b00100000);	// we will only be sending one byte at a time
-	_delay_ms(10);
+	_delay_ms(1);
 	i2cSendByte(PE_ADDRESS, PE_GPPUA, 0b11111111); // enable all weak pull-ups
 	i2cSendByte(PE_ADDRESS, PE_GPPUB, 0b11111111); // enable all weak pull-ups
-	_delay_ms(10);
+	_delay_ms(1);
 	// GET the initial state for the DAC registers
 	readRegisters();
 }
@@ -323,7 +322,7 @@ int main(int argc, char **argv) {
 		if (MONO) {
 			checkAndUpdate(DAC_ADDRESS + 2);
 		}
-		_delay_ms(50);// sleep a bit
+		_delay_ms(10);// sleep a bit
 	}
 	return 0;
 }

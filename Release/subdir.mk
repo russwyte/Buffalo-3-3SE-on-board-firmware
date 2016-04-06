@@ -4,16 +4,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../USI_I2C_Master.c \
-../main.c 
+../Buffalo.c \
+../USI_I2C_Master.c 
 
 OBJS += \
-./USI_I2C_Master.o \
-./main.o 
+./Buffalo.o \
+./USI_I2C_Master.o 
 
 C_DEPS += \
-./USI_I2C_Master.d \
-./main.d 
+./Buffalo.d \
+./USI_I2C_Master.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

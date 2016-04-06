@@ -9,7 +9,7 @@
 #define sbi(sfr, bit) 			(_SFR_BYTE(sfr) |= _BV(bit))
 #define cbi(sfr, bit) 			(_SFR_BYTE(sfr) &= ~_BV(bit))
 
-#define AVG_LEN 50
+#define AVG_LEN 20 // The number of times to sample ADC
 
 #define PE_IOCONN				0x0A// at least initially
 #define PE_IPOLA  				0x02
