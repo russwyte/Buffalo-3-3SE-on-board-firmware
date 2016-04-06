@@ -238,6 +238,8 @@ void configureDAC() {
 		break;
 	}
 
+	// Switch 4 set MONO - dealt with elsewhere
+
 	// Switch 5 disables jitter reduction and OSF.
 	if (sw2 & _BV(4)) {
 		// disable
@@ -257,6 +259,10 @@ void configureDAC() {
 	}
 
 	// switch 7 and 8 set IIR freq
+	// 0b00 == Normal
+	// 0b01 == 50Khz
+	// 0b10 == 60Khz
+	// 0b11 == 70Khz
 	if (sw2 & _BV(6)) {
 		setRegisterBit(14, 1);
 	} else {
