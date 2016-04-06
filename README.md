@@ -19,7 +19,7 @@ The switches are connected to the Port Expander GPIO pins with weak pull-ups ena
 
 | POS | Switch 1                            | Switch 2                                                        | POS |
 |-----|-------------------------------------|-----------------------------------------------------------------|-----|
-| 1   | Quantizer Bit-0                     | IIR Freq Bit-0                                                  | 8   |
+| 1   | Quantizer Bit-0                     | IIR Freq Bit-1                                                  | 8   |
 | 2   | Quantizer Bit-1                     | IIR Freq Bit-0                                                  | 7   |
 | 3   | 0 - True Diff <br>1 - Pseudo Diff       | 0 - SPDIF auto-detect ON <br>1 - SPDIF auto-detect OFF(*See Note 1) | 6   |
 | 4   | 0 - Fast Roll-Off <br>1 - Slow Roll-Off | 0 - Stereo Mode <br>1 - Mono Mode (*See Note 2)                     | 5   |
@@ -33,29 +33,29 @@ Note 1: SPIDF Autodection should be disabled when playing PCM if possible otherw
 Note 2: In MONO mode the DAC with the address jumper open is the LEFT channel and has the LEFT output in normal phase and RIGHT output opposite phase, the DAC with the address jumper closed is the RIGHT channel and has the RIGHT output in normal phase and the LEFT output opposite phase.
 
 Quantizer settings:
-0b00 == 6-bit
-0b01 == 7-bit
-0b10 == 8-bit
-0b11 == 9-bit
+* 0b00 == 6-bit
+* 0b01 == 7-bit
+* 0b10 == 8-bit
+* 0b11 == 9-bit
 
 DPLL Settings:
-0b000 - Least Bandwidth(None)
-...
-0b111 - Most Bandwidth
+* 0b000 - Least Bandwidth(None)
+* ...
+* 0b111 - Most Bandwidth
 
 IIR Freq:
-0b00 == Normal (Lowest PCM ripple in band)
-0b01 == 50Khz
-0b10 == 60Khz
-0b11 == 70Khz
+* 0b00 == Normal (Lowest PCM ripple in band)
+* 0b01 == 50Khz
+* 0b10 == 60Khz
+* 0b11 == 70Khz
 
 Modes:
-0b000 == I2S-32-bit
-0b001 == Left Justified-32-bit
-0b100 == Right Justified-32-bit
-0b101 == Right Justified-24-bit
-0b110 == Right Justified-20-bit
-0b111 == Right Justified-16-bit
+* 0b000 == I2S-32-bit
+* 0b001 == Left Justified-32-bit
+* 0b100 == Right Justified-32-bit
+* 0b101 == Right Justified-24-bit
+* 0b110 == Right Justified-20-bit
+* 0b111 == Right Justified-16-bit
 
 The MIT License (MIT)
 
