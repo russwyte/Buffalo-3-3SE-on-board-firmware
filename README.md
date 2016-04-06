@@ -14,7 +14,7 @@ Fuse bytes:
 
 [Latest Release](https://github.com/russwyte/Buffalo-3SE-on-board-firmware/releases/latest "latest release")
 
-The switches are connected to the Port Expander GPIO pins with weak pull-ups enabled. Thus "Off" is open and reults in logic 1 and "On" is closed and results in logic 0.
+The switches are connected to the Port Expander GPIO pins with weak pull-ups enabled. The other end of the switch is connected to GND - thus "Off" is open and reults in logic 1 and "On" is closed and results in logic 0.
 
 
 | POS | Switch 1                            | Switch 2                                                        | POS |
