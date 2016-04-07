@@ -43,6 +43,7 @@ DPLL Settings:
 * 0b001 - Lowest BW
 * ...
 * 0b111 - Most Bandwidth
+
 Note: The DPLL of the ES9018 will drop itself out (freewheel) once a signal is locked using a synchronous master clock. In order to get a fast lock just set the DPLL value high. In asynchronous mode choose the lowest practical value while still maintaining a stable lock on the source.
 
 IIR Freq:
