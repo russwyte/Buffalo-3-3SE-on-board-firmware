@@ -39,9 +39,11 @@ Quantizer settings:
 * 0b11 == 9-bit
 
 DPLL Settings:
-* 0b000 - Least Bandwidth(None)
+* 0b000 - Factory Default
+* 0b001 - Lowest BW
 * ...
 * 0b111 - Most Bandwidth
+Note: The DPLL of the ES9018 will drop itself out (freewheel) once a signal is locked using a synchronous master clock. In order to get a fast lock just set the DPLL value high. In asynchronous mode choose the lowest practical value while still maintaining a stable lock on the source.
 
 IIR Freq:
 * 0b00 == Normal (Lowest PCM ripple in band)
