@@ -14,7 +14,7 @@ Fuse bytes:
 
 [Latest Release](https://github.com/russwyte/Buffalo-3SE-on-board-firmware/releases/latest "latest release")
 
-The switches are connected to the Port Expander GPIO pins with weak pull-ups enabled. The other end of the switch is connected to GND - thus "Off" is open and reults in logic 1 and "On" is closed and results in logic 0.
+The switches are connected to the Port Expander GPIO pins with weak pull-ups enabled. The other end of the switch is connected to GND - thus "Off" is open and results in logic 1 and "On" is closed and results in logic 0.
 
 # Buffalo-3SE Switch Assignments
 | POS | Switch 1                                | Switch 2                                                            | POS |
@@ -72,6 +72,12 @@ Modes:
 * 0b101 == Right Justified-24-bit
 * 0b110 == Right Justified-20-bit
 * 0b111 == Right Justified-16-bit
+
+SPDIF-IN(B3 only):
+* 0b00 == D1
+* 0b01 == D2
+* 0b10 == D3
+* 0b11 == D4
 
 The MIT License (MIT)
 
