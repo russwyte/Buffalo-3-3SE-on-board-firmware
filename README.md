@@ -1,6 +1,6 @@
 # Buffalo-3SE-on-board-firmware
 
-On-Board Firmware for the Twisted Pear Audio - Buffalo 3-SE DAC
+On-Board Firmware for the Twisted Pear Audio - Buffalo 3/3-SE DACs
 
 This firmware depends on the watch dog timer always being on and the brownout detection being enabled (at 2.7V).
 
@@ -16,17 +16,30 @@ Fuse bytes:
 
 The switches are connected to the Port Expander GPIO pins with weak pull-ups enabled. The other end of the switch is connected to GND - thus "Off" is open and reults in logic 1 and "On" is closed and results in logic 0.
 
-
-| POS | Switch 1                            | Switch 2                                                        | POS |
-|-----|-------------------------------------|-----------------------------------------------------------------|-----|
-| 1   | Quantizer Bit-0                     | IIR Freq Bit-1                                                  | 8   |
-| 2   | Quantizer Bit-1                     | IIR Freq Bit-0                                                  | 7   |
+# Buffalo-3SE Switch Assignments
+| POS | Switch 1                                | Switch 2                                                            | POS |
+|-----|-----------------------------------------|---------------------------------------------------------------------|-----|
+| 1   | Quantizer Bit-0                         | IIR Freq Bit-1                                                      | 8   |
+| 2   | Quantizer Bit-1                         | IIR Freq Bit-0                                                      | 7   |
 | 3   | 0 - True Diff <br>1 - Pseudo Diff       | 0 - SPDIF auto-detect ON <br>1 - SPDIF auto-detect OFF(*See Note 1) | 6   |
 | 4   | 0 - Fast Roll-Off <br>1 - Slow Roll-Off | 0 - Stereo Mode <br>1 - Mono Mode (*See Note 2)                     | 5   |
-| 5   | DPLL Bit-0                          | 0 - Normal <br>1 - No Jitter Eliminator /OSF OFF                    | 4   |
-| 6   | DPLL Bit-1                          | MODE Bit-2                                                      | 3   |
-| 7   | DPLL Bit-2                          | MODE Bit-1                                                      | 2   |
-| 8   | 0 - DPLL BW X 1 <br>1 - DPLL BW X 128   | MODE Bit-0                                                      | 1   |
+| 5   | DPLL Bit-0                              | 0 - Normal <br>1 - No Jitter Eliminator /OSF OFF                    | 4   |
+| 6   | DPLL Bit-1                              | MODE Bit-2                                                          | 3   |
+| 7   | DPLL Bit-2                              | MODE Bit-1                                                          | 2   |
+| 8   | 0 - DPLL BW X 1 <br>1 - DPLL BW X 128   | MODE Bit-0                                                          | 1   |
+
+# Buffalo-3 Switch Assignments
+| POS | Switch 1                                | Switch 2                                                            | POS |
+|-----|-----------------------------------------|---------------------------------------------------------------------|-----|
+| 1   | Quantizer Bit-0                         | 0 - Don't remap inputs<br> 1 - re-map inputs                        | 8   |
+| 2   | Quantizer Bit-1                         | IIR Freq Bit-1                                                      | 7   |
+| 3   | 0 - True Diff <br>1 - Pseudo Diff       | IIR Freq Bit-0                                                      | 6   |
+| 4   | 0 - Fast Roll-Off <br>1 - Slow Roll-Off | 0 - SPDIF auto-detect ON <br>1 - SPDIF auto-detect OFF(*See Note 1) | 5   |
+| 5   | DPLL Bit-0                              | 0 - Normal <br>1 - No Jitter Eliminator /OSF OFF                    | 4   |
+| 6   | DPLL Bit-1                              | 0 - Stereo Mode<br> 1 - Mono Mode (*See Note 2)                     | 3   |
+| 7   | DPLL Bit-2                              | SPDIF-IN Bit-1                                                      | 2   |
+| 8   | 0 - DPLL BW X 1 <br>1 - DPLL BW X 128   | SPDIF-IN Bit-0                                                      | 1   |
+
 
 Note 1: SPIDF Autodection should be disabled when playing PCM if possible otherwise at high sample rates random unlocks can happen because of false positives from the detector.
 
