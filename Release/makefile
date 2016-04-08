@@ -30,56 +30,56 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 LSS += \
-Buffalo_3SE_OB_FW.lss \
+on-board.lss \
 
 FLASH_IMAGE += \
-Buffalo_3SE_OB_FW.hex \
+on-board.hex \
 
 EEPROM_IMAGE += \
-Buffalo_3SE_OB_FW.eep \
+on-board.eep \
 
 SIZEDUMMY += \
 sizedummy \
 
 
 # All Target
-all: Buffalo_3SE_OB_FW.elf secondary-outputs
+all: on-board.elf secondary-outputs
 
 # Tool invocations
-Buffalo_3SE_OB_FW.elf: $(OBJS) $(USER_OBJS)
+on-board.elf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: AVR C Linker'
-	avr-gcc -Wl,-Map,Buffalo_3SE_OB_FW.map -mmcu=attiny85 -o "Buffalo_3SE_OB_FW.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	avr-gcc -Wl,-Map,on-board.map -mmcu=attiny85 -o "on-board.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-Buffalo_3SE_OB_FW.lss: Buffalo_3SE_OB_FW.elf
+on-board.lss: on-board.elf
 	@echo 'Invoking: AVR Create Extended Listing'
-	-avr-objdump -h -S Buffalo_3SE_OB_FW.elf  >"Buffalo_3SE_OB_FW.lss"
+	-avr-objdump -h -S on-board.elf  >"on-board.lss"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Buffalo_3SE_OB_FW.hex: Buffalo_3SE_OB_FW.elf
+on-board.hex: on-board.elf
 	@echo 'Create Flash image (ihex format)'
-	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Buffalo_3SE_OB_FW.elf  "Buffalo_3SE_OB_FW.hex"
+	-avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex on-board.elf  "on-board.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-Buffalo_3SE_OB_FW.eep: Buffalo_3SE_OB_FW.elf
+on-board.eep: on-board.elf
 	@echo 'Create eeprom image (ihex format)'
-	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex Buffalo_3SE_OB_FW.elf  "Buffalo_3SE_OB_FW.eep"
+	-avr-objcopy -j .eeprom --no-change-warnings --change-section-lma .eeprom=0 -O ihex on-board.elf  "on-board.eep"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-sizedummy: Buffalo_3SE_OB_FW.elf
+sizedummy: on-board.elf
 	@echo 'Invoking: Print Size'
-	-avr-size --format=avr --mcu=attiny85 Buffalo_3SE_OB_FW.elf
+	-avr-size --format=avr --mcu=attiny85 on-board.elf
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(EEPROM_IMAGE)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) Buffalo_3SE_OB_FW.elf
+	-$(RM) $(FLASH_IMAGE)$(ELFS)$(OBJS)$(ASM_DEPS)$(EEPROM_IMAGE)$(S_DEPS)$(SIZEDUMMY)$(S_UPPER_DEPS)$(LSS)$(C_DEPS) on-board.elf
 	-@echo ' '
 
 secondary-outputs: $(LSS) $(FLASH_IMAGE) $(EEPROM_IMAGE) $(SIZEDUMMY)
