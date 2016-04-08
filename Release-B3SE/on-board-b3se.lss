@@ -1,5 +1,5 @@
 
-Buffalo_3SE_OB_FW.elf:     file format elf32-avr
+on-board-b3se.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
