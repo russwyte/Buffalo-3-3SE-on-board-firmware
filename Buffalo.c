@@ -110,13 +110,29 @@ void checkAndUpdate(uint8_t address) {
 			setRegisterBit(17, 0);
 			setRegisterBit(17, 7);
 			// special case for re-map mode
+#ifdef B3_MODE
+			if(REMAP) {
+				state[13] = 0b00010001;
+			} else {
+				state[13] = 0b01010101;
+			}
+#else
 			state[13] = 0b00010001;
+#endif
 		} else {
 			// Left mode
 			setRegisterBit(17, 0);
 			clearRegisterBit(17, 7);
 			// special case for re-map mode
+#ifdef B3_MODE
+			if (REMAP) {
+				state[13] = 0b00100010;
+			} else {
+				state[13] = 0b10101010;
+			}
+#else
 			state[13] = 0b00100010;
+#endif
 		}
 	} else {
 		// stereo mode
@@ -191,7 +207,69 @@ void configureDAC() {
 		clearRegisterBit(25, 0); // normal
 	}
 
-	// DIP switch 2 settings
+#ifdef B3_MODE
+	// DIP switch 2 settings for B3
+
+	// SPDIF selection
+	switch (sw2 & 0b00000011) {
+		case 0b00 :
+			state[18] = 0b00000001;
+			break;
+		case 0b01 :
+			state[18] = 0b00000010;
+			break;
+		case 0b10 :
+			state[18] = 0b00000100;
+			break;
+		case 0b11 :
+			state[18] = 0b00001000;
+			break;
+	}
+
+	// Switch 4 disables jitter reduction and OSF.
+	if (sw2 & _BV(3)) {
+		// disable
+		setRegisterBit(17, 6);
+		clearRegisterBit(10, 2);
+	} else {
+		// normal-enable
+		clearRegisterBit(17, 6);
+		setRegisterBit(10, 2);
+	}
+
+	// switch 5 disables SPDIF auto-detect
+	if (sw2 & _BV(4)) {
+		clearRegisterBit(17, 3);// Don't detect
+	} else {
+		setRegisterBit(17, 3);// Auto-detect
+	}
+
+	// switch 6 and 7 set IIR freq
+	if (sw2 & _BV(5)) {
+		setRegisterBit(14, 1);
+	} else {
+		clearRegisterBit(14, 1);
+	}
+	if (sw2 & _BV(6)) {
+		setRegisterBit(14, 2);
+	} else {
+		clearRegisterBit(14, 2);
+	}
+
+	// re-map like B3SE
+	if (REMAP) {
+		setRegisterBit(14, 7);
+		setRegisterBit(14, 6);
+		setRegisterBit(14, 5);
+		setRegisterBit(14, 4);
+	} else {
+		clearRegisterBit(14, 7);
+		clearRegisterBit(14, 6);
+		clearRegisterBit(14, 5);
+		clearRegisterBit(14, 4);
+	}
+#else
+	// DIP switch 2 settings for B3 SE
 	// PCM mode settings
 	switch (sw2 & 0b00000111) {
 	case 0b000:
@@ -273,6 +351,7 @@ void configureDAC() {
 	} else {
 		clearRegisterBit(14, 2);
 	}
+#endif
 }
 
 void initialize() {
@@ -297,7 +376,11 @@ void initialize() {
 	state[11] = 0b10011101;
 	state[12] = 0b00100000;
 	state[13] = 0b00000000;
+#ifdef B3_MODE
+	state[14] = 0b00001001;// we always re-map for B3SE - also use normal IIR
+#else
 	state[14] = 0b11111001;// we always re-map for B3SE - also use normal IIR
+#endif
 	state[15] = 0b00000000;
 	state[16] = 0b00000000;
 	state[17] = 0b00011100;

@@ -18,5 +18,13 @@
 #define PE_GPPUB  				0x0D
 #define PE_GPIOA				0x12
 #define PE_GPIOB				0x13
+
+#ifdef B3_MODE
+#define MONO					sw2 & _BV(2)
+#define REMAP					sw2 & _BV(7)
+#define S
+#else
 #define MONO 					sw2 & _BV(3)
+#endif
+
 #endif /* BUFFALO_H_ */
