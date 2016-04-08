@@ -23,7 +23,7 @@ The switches are connected to the Port Expander GPIO pins with weak pull-ups ena
 | 2   | Quantizer Bit-1                         | IIR Freq Bit-0                                                      | 7   |
 | 3   | 0 - True Diff <br>1 - Pseudo Diff       | 0 - SPDIF auto-detect ON <br>1 - SPDIF auto-detect OFF(*See Note 1) | 6   |
 | 4   | 0 - Fast Roll-Off <br>1 - Slow Roll-Off | 0 - Stereo Mode <br>1 - Mono Mode (*See Note 2)                     | 5   |
-| 5   | DPLL Bit-0                              | 0 - Normal <br>1 - No Jitter Eliminator /OSF OFF                    | 4   |
+| 5   | DPLL Bit-0                              | 0 - Normal <br>1 - No Jitter Eliminator or OSF                      | 4   |
 | 6   | DPLL Bit-1                              | MODE Bit-2                                                          | 3   |
 | 7   | DPLL Bit-2                              | MODE Bit-1                                                          | 2   |
 | 8   | 0 - DPLL BW X 1 <br>1 - DPLL BW X 128   | MODE Bit-0                                                          | 1   |
@@ -35,7 +35,7 @@ The switches are connected to the Port Expander GPIO pins with weak pull-ups ena
 | 2   | Quantizer Bit-1                         | IIR Freq Bit-1                                                      | 7   |
 | 3   | 0 - True Diff <br>1 - Pseudo Diff       | IIR Freq Bit-0                                                      | 6   |
 | 4   | 0 - Fast Roll-Off <br>1 - Slow Roll-Off | 0 - SPDIF auto-detect ON <br>1 - SPDIF auto-detect OFF(*See Note 1) | 5   |
-| 5   | DPLL Bit-0                              | 0 - Normal <br>1 - No Jitter Eliminator /OSF OFF                    | 4   |
+| 5   | DPLL Bit-0                              | 0 - Normal <br>1 - No Jitter Eliminator or OSF                      | 4   |
 | 6   | DPLL Bit-1                              | 0 - Stereo Mode<br> 1 - Mono Mode (*See Note 2)                     | 3   |
 | 7   | DPLL Bit-2                              | SPDIF-IN Bit-1                                                      | 2   |
 | 8   | 0 - DPLL BW X 1 <br>1 - DPLL BW X 128   | SPDIF-IN Bit-0                                                      | 1   |
