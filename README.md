@@ -31,7 +31,7 @@ The switches are connected to the Port Expander GPIO pins with weak pull-ups ena
 # Buffalo-3 Switch Assignments
 | POS | Switch 1                                | Switch 2                                                            | POS |
 |-----|-----------------------------------------|---------------------------------------------------------------------|-----|
-| 1   | Quantizer Bit-0                         | 0 - Don't remap inputs<br> 1 - re-map inputs                        | 8   |
+| 1   | Quantizer Bit-0                         | 0 - Don't remap inputs<br> 1 - Remap inputs like B3SE(* See note 3) | 8   |
 | 2   | Quantizer Bit-1                         | IIR Freq Bit-1                                                      | 7   |
 | 3   | 0 - True Diff <br>1 - Pseudo Diff       | IIR Freq Bit-0                                                      | 6   |
 | 4   | 0 - Fast Roll-Off <br>1 - Slow Roll-Off | 0 - SPDIF auto-detect ON <br>1 - SPDIF auto-detect OFF(*See Note 1) | 5   |
@@ -41,9 +41,11 @@ The switches are connected to the Port Expander GPIO pins with weak pull-ups ena
 | 8   | 0 - DPLL BW X 1 <br>1 - DPLL BW X 128   | SPDIF-IN Bit-0                                                      | 1   |
 
 
-Note 1: SPIDF Autodection should be disabled when playing PCM if possible otherwise at high sample rates random unlocks can happen because of false positives from the detector.
+Note 1: SPIDF auto-detection should always be disabled when playing PCM if possible otherwise at high sample rates random unlocks can happen because of false positives from the detector.
 
 Note 2: In MONO mode the DAC with the address jumper open is the LEFT channel and has the LEFT output in normal phase and RIGHT output opposite phase, the DAC with the address jumper closed is the RIGHT channel and has the RIGHT output in normal phase and the LEFT output opposite phase.
+
+Note 3: The B3 can be used as either an 8 channel DAC or as a stereo/mono DAC with the inputs re-mapped like B3SE. This allows the use of modules like "Sidecar" for stereo PCM/DSD and SPDIF inputs as well.
 
 Quantizer settings:
 * 0b00 == 6-bit
