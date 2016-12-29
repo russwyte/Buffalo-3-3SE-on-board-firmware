@@ -22,7 +22,7 @@ The switches are connected to the Port Expander GPIO pins with weak pull-ups ena
 | 1   | Quantizer Bit-0                         | IIR Freq Bit-1                                                      | 8   |
 | 2   | Quantizer Bit-1                         | IIR Freq Bit-0                                                      | 7   |
 | 3   | 0 - True Diff <br>1 - Pseudo Diff       | 0 - SPDIF auto-detect ON <br>1 - SPDIF auto-detect OFF(*See Note 1) | 6   |
-| 4   | 0 - Fast Roll-Off <br>1 - Slow Roll-Off | 0 - Stereo Mode <br>1 - Mono Mode (*See Note 2)                     | 5   |
+| 4   | 0 - Fast Roll-Off <br>1 - Slow Roll-Off | 0 - Normal Mode <br>1 - Mono Mode (*See Note 2)                     | 5   |
 | 5   | DPLL Bit-0                              | 0 - Normal <br>1 - No Jitter Eliminator or OSF                      | 4   |
 | 6   | DPLL Bit-1                              | MODE Bit-2                                                          | 3   |
 | 7   | DPLL Bit-2                              | MODE Bit-1                                                          | 2   |
@@ -32,8 +32,6 @@ The switches are connected to the Port Expander GPIO pins with weak pull-ups ena
 Note 1: SPIDF auto-detection should always be disabled when playing PCM if possible otherwise at high sample rates random unlocks can happen because of false positives from the detector.
 
 Note 2: In MONO mode the DAC with the address jumper open is the LEFT channel and has the LEFT output in normal phase and RIGHT output opposite phase, the DAC with the address jumper closed is the RIGHT channel and has the RIGHT output in normal phase and the LEFT output opposite phase.
-
-Note 3: The B3 can be used as either an 8 channel DAC or as a stereo/mono DAC with the inputs re-mapped like B3SE. This allows the use of modules like "Sidecar" for stereo PCM/DSD and SPDIF inputs as well.
 
 Quantizer settings:
 * 0b00 == 6-bit
@@ -62,12 +60,6 @@ Modes:
 * 0b101 == Right Justified-24-bit
 * 0b110 == Right Justified-20-bit
 * 0b111 == Right Justified-16-bit
-
-SPDIF-IN(B3 only):
-* 0b00 == D1
-* 0b01 == D2
-* 0b10 == D3
-* 0b11 == D4
 
 The MIT License (MIT)
 
